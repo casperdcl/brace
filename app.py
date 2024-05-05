@@ -1,5 +1,4 @@
 import os
-import random
 from textwrap import dedent
 
 import requests
@@ -16,32 +15,26 @@ with st.expander("Advanced options"):
         chapter_filter = ''
 
 if user_question := st.text_area(
-    "Enter your query:",
+    "Enter your query (try to use complete sentences):",
     help=dedent("""\
     e.g.:
     Define marriage and the relationship between husband (man) and wife (woman).
-    How to handle criminals and evil-doers?
+    What is the difference between faith and works, and can we be saved by faith alone?
+    How should criminals and evil-doers be handled?
     Explain the Holy Trinity.""")
 ):
-    with st.spinner(random.choice((
-        "Reticulating splines",
-        "Searching for answers",
-        "Thinking",
-        "Just a moment",
-        "Processing",
-        "Hold tight",
-        "Searching for answers",
-        "One moment please",
-        "Generating a response",
-        "Please wait",
-        "Working on it",
-        "Give me a second",
-        "Almost there",
-        "On it",
-        "Working hard",
-    )) + "..."):
+    with st.spinner("Searching for answers in the Bible..."):
+        pbar = st.progress(0)
         res = requests.get(
             os.getenv('BRACE_BACKEND_URL', 'http://localhost:8090/api'), stream=True,
             params={'q': user_question, 'chapter_filter': chapter_filter, 'max_chapters': k})
         for chunk in res.iter_content(None, True):
+            if "*basic chapter selection*" in chunk:
+                pbar.progress(5)
+            if "*refined selection*" in chunk:
+                pbar.progress(30)
+            if "*paraphrased query*" in chunk:
+                pbar.progress(40)
+            if "## Answer" in chunk:
+                pbar.progress(100)
             st.markdown(chunk)
