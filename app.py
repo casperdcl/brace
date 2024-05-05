@@ -4,8 +4,16 @@ from textwrap import dedent
 import requests
 import streamlit as st
 
-st.title("BRACES: Bible retrieval-augmented (Catholic edition) study")
-with st.expander("Advanced options"):
+st.set_page_config(
+    page_title="BRACES — Bible retrieval-augmented (Catholic edition) study",
+    page_icon='📖',
+    initial_sidebar_state='collapsed',
+    menu_items={'Get help': 'mailto:braces@cdcl.ml',
+                'Report a bug': 'https://github.com/casperdcl/braces/issues/new',
+                'About': "See [casperdcl/braces](https://github.com/casperdcl/braces)"})
+st.title("📖 BRACES: Bible retrieval-augmented (Catholic edition) study")
+with st.sidebar:
+    st.title("Advanced options")
     k = st.slider("Maximum number of relevant chapters for *basic chapter selection*", 1, 50, 10, 1)
     if chapter_filter := st.text_input("Chapter selection (override)", help="regex, e.g. ^(Genesis [12]|Exodus 2)$"):
         pass

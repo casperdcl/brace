@@ -1,0 +1,10 @@
+[browser]
+gatherUsageStats = false
+[client]
+showErrorDetails = false
+toolbarMode = "minimal"
+[theme]
+primaryColor = "#7f94ff"
+backgroundColor = "#fffae5"
+secondaryBackgroundColor = "#ffeee5"
+font = "serif"
