@@ -43,6 +43,9 @@ if user_question := st.text_area(
                 pbar.progress(30)
             if "*paraphrased query*" in chunk:
                 pbar.progress(40)
-            if "## Answer" in chunk:
+            if "## Answer" in chunk or "https://cdcl.ml" in chunk:
                 pbar.progress(100)
-            st.markdown(chunk)
+                st.markdown(chunk)
+            else:
+                with st.expander(chunk.split('\n', 1)[0], expanded=False):
+                    st.markdown(chunk.split('\n', 1)[1])
