@@ -13,13 +13,10 @@ st.set_page_config(
 st.title("📖 BRACES: Bible retrieval-augmented (Catholic edition) study")
 with st.sidebar:
     st.title("Advanced options")
-    k = st.slider("Maximum number of relevant chapters for *basic chapter selection*", 1, 50, 10, 1)
-    if chapter_filter := st.text_input("Chapter selection (override)", help="regex, e.g. ^(Genesis [12]|Exodus 2)$"):
-        pass
-    elif st.checkbox("Use AI-based *chapter selection*"):
+    max_chapters = st.slider("Maximum number of relevant chapters for *basic chapter selection*", 1, 50, 10, 1)
+    chapter_filter = st.text_input("Chapter selection (override)", help="regex, e.g. ^(Genesis [12]|Exodus 2)$")
+    if not chapter_filter and st.checkbox("Use AI-based *chapter selection*"):
         chapter_filter = 'LLM'
-    else:
-        chapter_filter = ''
 
 query = st.text_area(
     "Enter your query (try to use complete sentences):", help="""e.g:
@@ -34,7 +31,7 @@ if query and submit:
         pbar = st.progress(0)
         res = requests.get(
             os.getenv('BRACE_BACKEND_URL', 'http://localhost:8090/api'), stream=True,
-            params={'q': query, 'chapter_filter': chapter_filter, 'max_chapters': k})
+            params={'q': query, 'chapter_filter': chapter_filter, 'max_chapters': max_chapters})
         for chunk in res.iter_content(None, True):
             if "*basic chapter selection*" in chunk:
                 pbar.progress(5)
