@@ -1,13 +1,22 @@
 # BRACES: Bible retrieval-augmented (Catholic edition) study
 
-## Privacy, security, licences, and ethics
+## About
+
+The Bible is the most studied and translated book in existence. Despite this, it is oft misinterpreted and misunderstood.
+Whilst [the CCC](https://www.vatican.va/archive/ccc/index.htm?utm_source=braces.cdcl.ml) and numerous Bible commentaries aim to aid understanding, they are not as meticulously worded as the Bible itself, and are thus significantly easier for AI to misinterpret.
+This AI tool thus aims to provide insights & answers solely based on the Biblical text. The tool itself can be viewed as a bespoke commentary generator.
+
+:writing_hand: To improve answers, try rewording and adding more details to your query. For example, instead of *"tradition vs scripture"*, ask *"Are sacred tradition and sacred scripture equally important, or is scripture more important?"*
+
+:bug: Found a bug or have a feature request? [Open an issue](https://github.com/casperdcl/braces/issues) or email `braces@cdcl.ml`.
+
+## Privacy, security & licensing
 
 - I tweak & host the permissively-licenced AI model(s) behind this site (in my own time, on my own hardware, at my expense)
   + If you want, you can support my work [here](https://cdcl.ml/sponsor)
-  + No data (queries, answers, IP address, etc.) are sent to any third-party
+  + No data (queries, answers, IP addresses, etc.) are sent to any third-party
   + Answers are generated based on the Bible so should be in the public domain
-- The underlying AI can sometimes misinterpret text, so please verify all biblical references/citations
-- Found a bug or have a feature request? [Open an issue](https://github.com/casperdcl/braces/issues) or email `braces@cdcl.ml`
+- The underlying AI can misinterpret text, so please verify all Bible references/citations
 
 ## Further reading
 

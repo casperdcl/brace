@@ -33,15 +33,20 @@ if query and submit:
             os.getenv('BRACE_BACKEND_URL', 'http://localhost:8090/api'), stream=True,
             params={'q': query, 'chapter_filter': chapter_filter, 'max_chapters': max_chapters})
         for chunk in res.iter_content(None, True):
-            if "*basic chapter selection*" in chunk:
+            if "*basic chapter selection*\n" in chunk:
                 pbar.progress(5)
-            if "*refined selection*" in chunk:
+            if "*refined selection*\n" in chunk:
                 pbar.progress(30)
-            if "*paraphrased query*" in chunk:
+            if "*paraphrased query*\n" in chunk:
                 pbar.progress(40)
-            if "## Answer" in chunk or "https://cdcl.ml" in chunk:
-                pbar.progress(100)
+
+            if "## Answer\n" in chunk:
+                pbar.progress(99)
                 st.markdown(chunk)
+            elif "## About\n" in chunk:
+                pbar.progress(100)
+                st.caption(chunk)
             else:
-                with st.expander(chunk.split('\n', 1)[0], expanded=False):
-                    st.markdown(chunk.split('\n', 1)[1])
+                heading, body = chunk.partition('\n')[::2]
+                with st.expander(heading, expanded=False):
+                    st.markdown(body)
