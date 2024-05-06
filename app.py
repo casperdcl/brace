@@ -4,13 +4,13 @@ import requests
 import streamlit as st
 
 st.set_page_config(
-    page_title="BRACES — Bible retrieval-augmented (Catholic edition) study",
+    page_title="BRACE — Bible retrieval-augmented (Catholic edition)",
     page_icon='📖',
     initial_sidebar_state='collapsed',
-    menu_items={'Get help': 'mailto:braces@cdcl.ml',
-                'Report a bug': 'https://github.com/casperdcl/braces/issues/new',
-                'About': "See [casperdcl/braces](https://github.com/casperdcl/braces)"})
-st.title("📖 BRACES: Bible retrieval-augmented (Catholic edition) study")
+    menu_items={'Get help': 'mailto:brace@cdcl.ml',
+                'Report a bug': 'https://github.com/casperdcl/brace/issues/new',
+                'About': "See [casperdcl/brace](https://github.com/casperdcl/brace)"})
+st.title("📖 BRACE: Bible retrieval-augmented (Catholic edition)")
 with st.sidebar:
     st.title("Advanced options")
     max_chapters = st.slider("Maximum number of relevant chapters for *basic chapter selection*", 1, 50, 10, 1)
