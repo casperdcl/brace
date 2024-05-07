@@ -29,6 +29,7 @@ submit = st.button("Submit")
 if query and submit:
     with st.spinner("Searching for answers in the Bible..."):
         pbar = st.progress(0)
+        eta = st.caption("*estimated time remaining: >5 minutes (lots of users!)*")
         res = requests.get(
             os.getenv('BRACE_BACKEND_URL', 'http://localhost:8090/api'), stream=True,
             params={'q': query, 'chapter_filter': chapter_filter, 'max_chapters': max_chapters})
@@ -36,11 +37,14 @@ if query and submit:
             if "*basic chapter selection*\n" in chunk:
                 pbar.progress(5)
             if "*refined selection*\n" in chunk:
+                eta.caption("*estimated time remaining: <1 minute*")
                 pbar.progress(30)
             if "*paraphrased query*\n" in chunk:
                 pbar.progress(40)
 
-            if "## Answer\n" in chunk:
+            if "*estimated time remaining: " in chunk:
+                eta.caption(chunk)
+            elif "## Answer\n" in chunk:
                 pbar.progress(99)
                 st.markdown(chunk)
             elif "## About\n" in chunk:
@@ -50,3 +54,4 @@ if query and submit:
                 heading, body = chunk.partition('\n')[::2]
                 with st.expander(heading, expanded=False):
                     st.markdown(body)
+        eta.empty()
