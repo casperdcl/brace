@@ -5,7 +5,7 @@ import streamlit as st
 
 st.set_page_config(
     page_title="BRACE — Bible retrieval-augmented (Catholic edition)",
-    page_icon='📖',
+    page_icon='https://brace.cdcl.ml/favicon.svg',
     initial_sidebar_state='collapsed',
     menu_items={'Get help': 'mailto:brace@cdcl.ml',
                 'Report a bug': 'https://github.com/casperdcl/brace/issues/new',

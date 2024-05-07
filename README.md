@@ -1,5 +1,7 @@
 # BRACE: Bible retrieval-augmented (Catholic edition)
 
+[<img src="https://brace.cdcl.ml/favicon.svg" width="48px" />](https://brace.cdcl.ml)
+
 ## About
 
 The Bible is the most studied and translated book in existence. Despite this, it is oft misinterpreted and misunderstood.
