@@ -49,6 +49,9 @@ if query and submit:
             if "*estimated time remaining: " in chunk:
                 eta.caption(chunk)
             elif "## Answer\n" in chunk:
+                pbar.progress(95)
+                st.markdown(chunk)
+            elif "## Related questions\n" in chunk:
                 pbar.progress(99)
                 st.markdown(chunk)
             elif "## About\n" in chunk:
