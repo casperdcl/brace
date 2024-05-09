@@ -58,4 +58,4 @@ if query and submit:
                 heading, body = chunk.partition('\n')[::2]
                 with st.expander(heading, expanded=False):
                     st.markdown(body)
-        eta.caption(f"Like what you see? [Link to this question](https://brace.cdcl.ml/?q={urllib.parse.quote(query)})")
+        eta.caption(f"Like what you see? [Link to this question](https://brace.cdcl.ml/?q={urllib.parse.quote(query)}).")
