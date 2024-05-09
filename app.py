@@ -1,4 +1,5 @@
 import os
+import urllib.parse
 
 import requests
 import streamlit as st
@@ -18,13 +19,16 @@ with st.sidebar:
     if not chapter_filter and st.checkbox("Use AI-based *chapter selection*"):
         chapter_filter = 'LLM'
 
-query = st.text_area(
-    "Enter your query (try to use complete sentences):", help="""e.g:
+query_url = st.query_params.get('q', "")
+query_usr = st.text_area(
+    "Enter your question (try to use complete sentences):",
+    value=query_url, help="""e.g:
     Define marriage and the relationship between husband (man) and wife (woman).
     What is the difference between faith and works, and can we be saved by faith alone?
     Are sacred tradition and sacred scripture equally important, or is scripture more important?
     How should criminals and evil-doers be treated and should we punish them?
     Explain the Holy Trinity, and how can one God exist in three persons?""")
+query = query_usr or query_url
 submit = st.button("Submit")
 if query and submit:
     with st.spinner("Searching for answers in the Bible..."):
@@ -39,7 +43,7 @@ if query and submit:
             if "*refined selection*\n" in chunk:
                 eta.caption("*estimated time remaining: <1 minute*")
                 pbar.progress(30)
-            if "*paraphrased query*\n" in chunk:
+            if "*paraphrased question*\n" in chunk:
                 pbar.progress(40)
 
             if "*estimated time remaining: " in chunk:
@@ -54,4 +58,4 @@ if query and submit:
                 heading, body = chunk.partition('\n')[::2]
                 with st.expander(heading, expanded=False):
                     st.markdown(body)
-        eta.empty()
+        eta.caption(f"Like what you see? [Link to this question](https://brace.cdcl.ml/?q={urllib.parse.quote(query)})")

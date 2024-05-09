@@ -19,10 +19,22 @@
   <meta name="twitter:title" content="BRACE — Bible retrieval-augmented (Catholic edition)">
   <meta name="twitter:description" content="Find verses relevant to your burning questions">
   <meta name="twitter:image" content="https://brace.cdcl.ml/favicon.svg">
+  <style>
+    div.app {
+      background:url(https://brace.cdcl.ml/favicon.svg) top left no-repeat;
+      iframe {
+        width: 100%;
+        border: none;
+      }
+    }
+  </style>
 </head>
 <body>
-<iframe src="https://braces.streamlit.app/?embed=true"
- height="20000" style="width: 100%; border: none;"
-></iframe>
+<div class="app"><iframe height="20000" allowfullscreen="true"></iframe></div>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  let iframe = document.getElementsByTagName("iframe").item(0);
+  iframe.src = "https://braces.streamlit.app/?embed=true&embed_options=hide_loading_screen&" + urlParams.toString();
+</script>
 </body>
 </html>
