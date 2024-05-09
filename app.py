@@ -40,7 +40,7 @@ if query and submit:
         for chunk in res.iter_content(None, True):
             if "*basic chapter selection*\n" in chunk:
                 pbar.progress(5)
-            if "*refined selection*\n" in chunk:
+            if "*refined selection*\n" in chunk or "*selection override*\n" in chunk:
                 eta.caption("*estimated time remaining: <1 minute*")
                 pbar.progress(30)
             if "*paraphrased question*\n" in chunk:
