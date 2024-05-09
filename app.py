@@ -28,7 +28,7 @@ query_usr = st.text_area(
     Are sacred tradition and sacred scripture equally important, or is scripture more important?
     How should criminals and evil-doers be treated and should we punish them?
     Explain the Holy Trinity, and how can one God exist in three persons?""")
-query = query_usr or query_url
+query = (query_usr or query_url).strip()
 submit = st.button("Submit")
 if query and submit:
     with st.spinner("Searching for answers in the Bible..."):
