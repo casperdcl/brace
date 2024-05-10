@@ -54,6 +54,8 @@ if query and submit:
             elif "## Related questions\n" in chunk:
                 pbar.progress(99)
                 st.markdown(chunk)
+            elif "*total time: " in chunk:
+                st.caption(f"⏱️ {chunk}")
             elif "## About\n" in chunk:
                 pbar.progress(100)
                 st.caption(chunk)
