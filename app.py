@@ -23,7 +23,7 @@ query_url = st.query_params.get('q', "")
 query_usr = st.text_area(
     "Enter your question (try to use complete sentences):",
     value=query_url, help="""e.g:
-    Define marriage and the relationship between husband (man) and wife (woman).
+    What is the nature and purpose of marriage?
     What is the difference between faith and works, and can we be saved by faith alone?
     Are sacred tradition and sacred scripture equally important, or is scripture more important?
     How should criminals and evil-doers be treated and should we punish them?
