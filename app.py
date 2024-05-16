@@ -30,7 +30,8 @@ query_usr = st.text_area(
     Explain the Holy Trinity, and how can one God exist in three persons?""")
 query = (query_usr or query_url).strip()
 submit = st.button("Submit")
-if query and submit:
+if query and (submit or not st.session_state.get('query_url_processed', False)):
+    st.session_state['query_url_processed'] = True
     with st.spinner("Searching for answers in the Bible..."):
         pbar = st.progress(0)
         eta = st.caption("*estimated time remaining: >5 minutes (lots of users!)*")
