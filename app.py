@@ -19,6 +19,8 @@ with st.sidebar:
     if not chapter_filter and st.checkbox("Use AI-based *chapter selection*"):
         chapter_filter = 'LLM'
 
+if 'queries_processed' not in st.session_state:
+    st.session_state['queries_processed'] = set()
 query_url = st.query_params.get('q', "")
 query_usr = st.text_area(
     "Enter your question (try to use complete sentences):",
@@ -28,10 +30,18 @@ query_usr = st.text_area(
     Are sacred tradition and sacred scripture equally important, or is scripture more important?
     How should criminals and evil-doers be treated and should we punish them?
     Explain the Holy Trinity, and how can one God exist in three persons?""")
-query = (query_usr or query_url).strip()
+query = query_usr.strip()
 submit = st.button("Submit")
-if query and (submit or not st.session_state.get('query_url_processed', False)):
+if query and (
+    # submit.onclick: query from text_area
+    submit
+    # document.onload: query from URL
+    or not st.session_state.get('query_url_processed', not query_url)
+    # textarea.onchange && query already processed (rely on backend cache): query from text_area
+    or query in st.session_state['queries_processed']
+):
     st.session_state['query_url_processed'] = True
+    st.session_state['queries_processed'].add(query)
     with st.spinner("Searching for answers in the Bible..."):
         pbar = st.progress(0)
         eta = st.caption("*estimated time remaining: >5 minutes (lots of users!)*")
