@@ -22,14 +22,7 @@ with st.sidebar:
 if 'queries_processed' not in st.session_state:
     st.session_state['queries_processed'] = set()
 query_url = st.query_params.get('q', "")
-query_usr = st.text_area(
-    "Enter your question (try to use complete sentences):",
-    value=query_url, help="""e.g:
-    What is the nature and purpose of marriage?
-    What is the difference between faith and works, and can we be saved by faith alone?
-    Are sacred tradition and sacred scripture equally important, or is scripture more important?
-    How should criminals and evil-doers be treated and should we punish them?
-    Explain the Holy Trinity, and how can one God exist in three persons?""")
+query_usr = st.text_area("Enter your question (try to use complete sentences):", value=query_url)
 query = query_usr.strip()
 submit = st.button("Submit")
 if query and (
@@ -75,3 +68,13 @@ if query and (
                 with st.expander(heading, expanded=False):
                     st.markdown(body)
         eta.caption(f"Like what you see? [Link to this question](https://brace.cdcl.ml/?q={urllib.parse.quote(query)}).")
+else:
+    st.caption("## Example questions")
+    st.caption("\n".join(f"- [{q}](https://brace.cdcl.ml/?q={urllib.parse.quote(q)})" for q in (
+        "Define marriage and its purpose.",
+        "What is the difference between faith and works, and can we be saved by faith alone?",
+        "Are sacred tradition and sacred scripture equally important, or is scripture more important?",
+        "How should criminals and evil-doers be treated, and should we punish them?",
+        "Explain the Holy Trinity, and how can one God exist in three persons?",
+        "Is money evil?"
+    )))
