@@ -38,9 +38,11 @@ if query and (
     with st.spinner("Searching for answers in the Bible..."):
         pbar = st.progress(0)
         eta = st.caption("*estimated time remaining: >5 minutes (lots of users!)*")
+        share = st.empty()
         res = requests.get(
             os.getenv('BRACE_BACKEND_URL', 'http://localhost:8090/api'), stream=True,
             params={'q': query, 'chapter_filter': chapter_filter, 'max_chapters': max_chapters})
+        total_chapters = 0
         for chunk in res.iter_content(None, True):
             if "*basic chapter selection*\n" in chunk:
                 pbar.progress(5)
@@ -48,6 +50,7 @@ if query and (
             elif "*refined selection*\n" in chunk or "*selection override*\n" in chunk:
                 eta.caption("*estimated time remaining: <1 minute*")
                 pbar.progress(30)
+                total_chapters = chunk.count("\n- [")
                 stream_node = None
             elif "*paraphrased question*\n" in chunk:
                 pbar.progress(40)
@@ -56,14 +59,10 @@ if query and (
             if "*estimated time remaining: " in chunk:
                 eta.caption(chunk)
                 stream_node = None
-            elif "## Answer\n" in chunk:
-                pbar.progress(95)
+            elif "## Answer\n" in chunk or "## Related questions\n" in chunk:
                 stream_node = st.markdown(chunk)
-                stream_text = chunk
-            elif "## Related questions\n" in chunk:
-                pbar.progress(99)
-                stream_node = st.markdown(chunk)
-                stream_text = chunk
+                stream_body = chunk
+                share.caption(f"Like what you see? [Link to this question](https://brace.cdcl.ml/?q={urllib.parse.quote(query)}).")
             elif "*total time: " in chunk:
                 st.caption(f"⏱️ {chunk}")
                 stream_node = None
@@ -71,14 +70,16 @@ if query and (
                 pbar.progress(100)
                 st.caption(chunk)
                 stream_node = None
-            elif stream_node is not None:
-                stream_text += chunk
-                stream_node.markdown(stream_text)
-            else:
+            elif stream_node is None:
                 heading, body = chunk.partition('\n')[::2]
                 with st.expander(heading, expanded=False):
                     st.markdown(body)
-        eta.caption(f"Like what you see? [Link to this question](https://brace.cdcl.ml/?q={urllib.parse.quote(query)}).")
+            else:
+                stream_body += chunk
+                seen_chapters = stream_body.count("\n**")
+                pbar.progress(.4 + .5 * (seen_chapters / max(total_chapters, seen_chapters)))
+                stream_node.markdown(stream_body)
+        eta.empty()
 else:
     st.caption("## Example questions")
     st.caption("\n".join(f"- [{q}](https://brace.cdcl.ml/?q={urllib.parse.quote(q)})" for q in (
