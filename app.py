@@ -44,25 +44,36 @@ if query and (
         for chunk in res.iter_content(None, True):
             if "*basic chapter selection*\n" in chunk:
                 pbar.progress(5)
-            if "*refined selection*\n" in chunk or "*selection override*\n" in chunk:
+                stream_node = None
+            elif "*refined selection*\n" in chunk or "*selection override*\n" in chunk:
                 eta.caption("*estimated time remaining: <1 minute*")
                 pbar.progress(30)
-            if "*paraphrased question*\n" in chunk:
+                stream_node = None
+            elif "*paraphrased question*\n" in chunk:
                 pbar.progress(40)
+                stream_node = None
 
             if "*estimated time remaining: " in chunk:
                 eta.caption(chunk)
+                stream_node = None
             elif "## Answer\n" in chunk:
                 pbar.progress(95)
-                st.markdown(chunk)
+                stream_node = st.markdown(chunk)
+                stream_text = chunk
             elif "## Related questions\n" in chunk:
                 pbar.progress(99)
-                st.markdown(chunk)
+                stream_node = st.markdown(chunk)
+                stream_text = chunk
             elif "*total time: " in chunk:
                 st.caption(f"⏱️ {chunk}")
+                stream_node = None
             elif "## About\n" in chunk:
                 pbar.progress(100)
                 st.caption(chunk)
+                stream_node = None
+            elif stream_node is not None:
+                stream_text += chunk
+                stream_node.markdown(stream_text)
             else:
                 heading, body = chunk.partition('\n')[::2]
                 with st.expander(heading, expanded=False):
