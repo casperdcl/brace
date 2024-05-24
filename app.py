@@ -77,7 +77,7 @@ if query and (
             else:
                 stream_body += chunk
                 seen_chapters = stream_body.count("\n**")
-                pbar.progress(.4 + .5 * (seen_chapters / max(total_chapters, seen_chapters)))
+                pbar.progress(.4 + .5 * (seen_chapters / max((total_chapters, seen_chapters, 1))))
                 stream_node.markdown(stream_body)
         eta.empty()
 else:
