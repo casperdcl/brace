@@ -15,8 +15,11 @@ st.set_page_config(
 st.title("📖 BRACE: Bible retrieval-augmented (Catholic edition)")
 with st.sidebar:
     st.title("Advanced options")
-    max_chapters = st.slider("Maximum number of relevant chapters for *basic chapter selection*", 1, 50, 10, 1)
-    chapter_filter = st.text_input("Chapter selection (override)", help="regex, e.g. ^(Genesis [12]|Exodus 2)$")
+    max_chapters_url = st.query_params.get('n', "10")
+    max_chapters = st.slider("Maximum number of relevant chapters for *basic chapter selection*", 1, 50, int(max_chapters_url), 1)
+    chapter_filter_url = st.query_params.get('ch', "")
+    chapter_filter_usr = st.text_input("Chapter selection (override)", value=chapter_filter_url, help="regex, e.g. ^(Genesis [12]|Exodus 2)$")
+    chapter_filter = chapter_filter_usr.strip()
     if not chapter_filter and st.checkbox("Use AI-based *chapter selection*"):
         chapter_filter = 'LLM'
 
@@ -64,7 +67,12 @@ if query and (
             elif "## Answer\n" in chunk or "## Related questions\n" in chunk:
                 stream_node = st.markdown(chunk)
                 stream_body = chunk
-                share.caption(f"Like what you see? [Link to this question](https://brace.cdcl.ml/?q={urllib.parse.quote_plus(query)}).")
+                link = f"https://brace.cdcl.ml/?q={urllib.parse.quote_plus(query)}"
+                if max_chapters != 10:
+                    link += f"&n={max_chapters}"
+                if chapter_filter:
+                    link += f"&ch={urllib.parse.quote_plus(chapter_filter)}"
+                share.caption(f"Like what you see? [Link to this question]({link}).")
             elif "*total time: " in chunk:
                 pbar.progress(100)
                 st.caption(f"⏱️ {chunk}")
