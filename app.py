@@ -64,7 +64,7 @@ if query and (
             elif "## Answer\n" in chunk or "## Related questions\n" in chunk:
                 stream_node = st.markdown(chunk)
                 stream_body = chunk
-                share.caption(f"Like what you see? [Link to this question](https://brace.cdcl.ml/?q={urllib.parse.quote(query)}).")
+                share.caption(f"Like what you see? [Link to this question](https://brace.cdcl.ml/?q={urllib.parse.quote_plus(query)}).")
             elif "*total time: " in chunk:
                 pbar.progress(100)
                 st.caption(f"⏱️ {chunk}")
@@ -81,7 +81,7 @@ if query and (
         eta.empty()
 else:
     st.caption("## Example questions")
-    st.caption("\n".join(f"- [{q}](https://brace.cdcl.ml/?q={urllib.parse.quote(q)})" for q in (
+    st.caption("\n".join(f"- [{q}](https://brace.cdcl.ml/?q={urllib.parse.quote_plus(q)})" for q in (
         "Define marriage and its purpose.",
         "What is the difference between faith and works, and can we be saved by faith alone?",
         "Are sacred tradition and sacred scripture equally important, or is scripture more important?",
