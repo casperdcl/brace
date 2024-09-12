@@ -5,6 +5,7 @@ from textwrap import dedent
 import requests
 import streamlit as st
 
+CNAME = 'brace.cdcl.ml'
 st.set_page_config(
     page_title="BRACE — Bible retrieval-augmented (Catholic edition)",
     page_icon='https://raw.githubusercontent.com/casperdcl/brace/main/docs/favicon.svg',
@@ -37,6 +38,8 @@ if query and (
     # textarea.onchange && query already processed (rely on backend cache): query from text_area
     or query in st.session_state['queries_processed']
 ):
+    if submit:
+        st.markdown(f"""<script>plausible('pageview', {{u: 'https://{CNAME}/{query}'}})</script>""", unsafe_allow_html=True)
     st.session_state['query_url_processed'] = True
     st.session_state['queries_processed'].add(query)
     with st.spinner("Searching for answers in the Bible..."):
@@ -67,7 +70,7 @@ if query and (
             elif "## Answer\n" in chunk or "## Related questions\n" in chunk:
                 stream_node = st.markdown(chunk)
                 stream_body = chunk
-                link = f"https://brace.cdcl.ml/?q={urllib.parse.quote_plus(query)}"
+                link = f"https://{CNAME}/?q={urllib.parse.quote_plus(query)}"
                 if max_chapters != 10:
                     link += f"&n={max_chapters}"
                 if chapter_filter:
@@ -89,7 +92,7 @@ if query and (
         eta.empty()
 else:
     st.caption("## Example questions")
-    st.caption("\n".join(f"- [{q}](https://brace.cdcl.ml/?q={urllib.parse.quote_plus(q)})" for q in (
+    st.caption("\n".join(f"- [{q}](https://{CNAME}/?q={urllib.parse.quote_plus(q)})" for q in (
         "Define marriage and its purpose.",
         "What is the difference between faith and works, and can we be saved by faith alone?",
         "Are sacred tradition and sacred scripture equally important, or is scripture more important?",
@@ -106,13 +109,13 @@ else:
     - What is the Church (i.e. tradition rather than scripture) stance on <insert topic>?
     """))
 
-st.caption("""
+st.caption(f"""
 ----
 
 ### About
 
 The Bible is the most studied and translated book in existence. Despite this, it is oft misinterpreted and misunderstood.
-Whilst [the CCC](https://www.vatican.va/archive/ccc/index.htm?utm_source=brace.cdcl.ml) and numerous Bible commentaries aim to aid understanding, they are not as meticulously worded as the Bible itself, and are thus significantly easier for AI to misinterpret.
+Whilst [the CCC](https://www.vatican.va/archive/ccc/index.htm?utm_source={CNAME}) and numerous Bible commentaries aim to aid understanding, they are not as meticulously worded as the Bible itself, and are thus significantly easier for AI to misinterpret.
 This AI tool thus aims to provide insights & answers solely based on the Biblical text. The tool itself can be viewed as a bespoke commentary generator.
 
 :writing_hand: To improve answers, try rewording and adding more details to your query. For example, instead of *"tradition vs scripture"*, ask *"Are sacred tradition and sacred scripture equally important, or is scripture more important?"*
@@ -130,14 +133,14 @@ This AI tool thus aims to provide insights & answers solely based on the Biblica
 
 ### Further reading
 
-- [Bible (RSVCE)](https://www.biblegateway.com/passage/?search=Genesis%201&version=RSVCE&utm_source=brace.cdcl.ml)
-- [Corrective Retrieval-Augmented Generation](https://arxiv.org/pdf/2401.15884.pdf?utm_source=brace.cdcl.ml)
-- [To Christians Developing LLM Applications: A Warning, and Some Suggestions](https://aiandfaith.org/to-christians-developing-llm-applications-a-warning-and-some-suggestions?utm_source=brace.cdcl.ml)
+- [Bible (RSVCE)](https://www.biblegateway.com/passage/?search=Genesis%201&version=RSVCE&utm_source={CNAME})
+- [Corrective Retrieval-Augmented Generation](https://arxiv.org/pdf/2401.15884.pdf?utm_source={CNAME})
+- [To Christians Developing LLM Applications: A Warning, and Some Suggestions](https://aiandfaith.org/to-christians-developing-llm-applications-a-warning-and-some-suggestions?utm_source={CNAME})
 
 ### Other tools
 
-- [OpenBible Labs AI-Assisted Bible Study](https://www.openbible.info/labs/ai-bible-study?utm_source=brace.cdcl.ml) — chapter summary & question generator
-- [Viz.Bible](https://viz.bible?utm_source=brace.cdcl.ml) — data visualisations, infographics, and illustrated diagrams
-- [Biblos](https://github.com/dssjon/biblos) — similar to [BRACE](https://brace.cdcl.ml)
-- [ChristGPT](https://github.com/ortegaalfredo/ChristGPT) — LLaMA-13B [Alpaca-LoRA](https://github.com/tloen/alpaca-lora) fine-tuned on [KJV](https://www.biblegateway.com/passage/?search=Genesis%201&version=KJV&utm_source=brace.cdcl.ml)
+- [OpenBible Labs AI-Assisted Bible Study](https://www.openbible.info/labs/ai-bible-study?utm_source={CNAME}) — chapter summary & question generator
+- [Viz.Bible](https://viz.bible?utm_source={CNAME}) — data visualisations, infographics, and illustrated diagrams
+- [Biblos](https://github.com/dssjon/biblos) — similar to [BRACE](https://{CNAME})
+- [ChristGPT](https://github.com/ortegaalfredo/ChristGPT) — LLaMA-13B [Alpaca-LoRA](https://github.com/tloen/alpaca-lora) fine-tuned on [KJV](https://www.biblegateway.com/passage/?search=Genesis%201&version=KJV&utm_source={CNAME})
 """)
