@@ -106,7 +106,14 @@ else:
     Topics which the Bible doesn't cover, e.g.:
 
     - What is the difference between Catholic and <insert denomination> beliefs?
-    - What is the Church (i.e. tradition rather than scripture) stance on <insert topic>?
+    - What is the Church (i.e. CCC & tradition rather than scripture) stance on <insert topic>?
+    - Is <insert modern invention> sinful?
+
+    Things which non-AI websearch is better at, e.g.:
+
+    - How many books (i.e. metadata/meta questions) are in the Catholic Bible, and when where they written?
+    - What does Matthew 5:30 (i.e. citation lookup) say?
+    - Where does it say (i.e. reverse citation lookup) <insert quote>?
     """))
 
 st.caption(f"""
@@ -125,9 +132,9 @@ This AI tool thus aims to provide insights & answers solely based on the Biblica
 ### Privacy, security & licensing
 
 - I tweak & host the permissively-licensed AI model(s) behind this site (in my own time, on my own hardware, at my expense)
-  + If you want, you can support my work [here](https://cdcl.ml/sponsor)
-  + No data (queries, answers, IP addresses, etc.) are sent to any third-party
+  + No personal info (queries, answers, IP addresses, etc.) are sent to any third-party, no cookie banner is needed
   + Answers are generated based on the Bible so should be in the public domain
+  + If you want, you can support my work [here](https://cdcl.ml/sponsor)
 - :warning: The underlying AI can misinterpret text (*machina imperfecta sub divina* rather than *deus ex machina*), so please verify all Bible references/citations
   + An AI Bible *study* tool is not an authoritative Bible *substitute*
 

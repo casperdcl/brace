@@ -16,9 +16,9 @@ This AI tool thus aims to provide insights & answers solely based on the Biblica
 ## Privacy, security & licensing
 
 - I tweak & host the permissively-licensed AI model(s) behind this site (in my own time, on my own hardware, at my expense)
-  + If you want, you can support my work [here](https://cdcl.ml/sponsor)
-  + No data (queries, answers, IP addresses, etc.) are sent to any third-party
+  + No personal info (queries, answers, IP addresses, etc.) are sent to any third-party, no cookie banner is needed
   + Answers are generated based on the Bible so should be in the public domain
+  + If you want, you can support my work [here](https://cdcl.ml/sponsor)
 - :warning: The underlying AI can misinterpret text (*machina imperfecta sub divina* rather than *deus ex machina*), so please verify all Bible references/citations
   + An AI Bible *study* tool is not an authoritative Bible *substitute*
 
