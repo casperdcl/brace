@@ -6,6 +6,7 @@ import requests
 import streamlit as st
 
 CNAME = 'brace.cdcl.ml'
+BRACE_BACKEND_URL = os.getenv('BRACE_BACKEND_URL', 'http://localhost:8090/api')
 st.set_page_config(
     page_title="BRACE — Bible retrieval-augmented (Catholic edition)",
     page_icon='https://raw.githubusercontent.com/casperdcl/brace/main/docs/favicon.svg',
@@ -46,9 +47,7 @@ if query and (
         pbar = st.progress(0)
         eta = st.caption("*estimated time remaining: >5 minutes (lots of users!)*")
         share = st.empty()
-        res = requests.get(
-            os.getenv('BRACE_BACKEND_URL', 'http://localhost:8090/api'), stream=True,
-            params={'q': query, 'chapter_filter': chapter_filter, 'max_chapters': max_chapters})
+        res = requests.get(BRACE_BACKEND_URL, stream=True, params={'q': query, 'chapter_filter': chapter_filter, 'max_chapters': max_chapters})
         total_chapters = 0
         stream_node = None
         for chunk in res.iter_content(None, True):
@@ -151,3 +150,5 @@ This AI tool thus aims to provide insights & answers solely based on the Biblica
 - [Biblos](https://github.com/dssjon/biblos) — similar to [BRACE](https://{CNAME})
 - [ChristGPT](https://github.com/ortegaalfredo/ChristGPT) — LLaMA-13B [Alpaca-LoRA](https://github.com/tloen/alpaca-lora) fine-tuned on [KJV](https://www.biblegateway.com/passage/?search=Genesis%201&version=KJV&utm_source={CNAME})
 """)
+
+st.image(requests.get(os.path.dirname(BRACE_BACKEND_URL) + '/status').text)
