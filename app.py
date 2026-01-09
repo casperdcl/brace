@@ -9,7 +9,7 @@ CNAME = 'brace.cdcl.ml'
 BRACE_BACKEND_URL = os.getenv('BRACE_BACKEND_URL', 'http://localhost:8090/api')
 st.set_page_config(
     page_title="BRACE — Bible retrieval-augmented (Catholic edition)",
-    page_icon='https://raw.githubusercontent.com/casperdcl/brace/main/docs/favicon.svg',
+    page_icon='https://raw.githubusercontent.com/casperdcl/brace/main/favicon.svg',
     initial_sidebar_state='collapsed',
     menu_items={'Get help': 'mailto:brace@cdcl.ml',
                 'Report a bug': 'https://github.com/casperdcl/brace/issues/new',

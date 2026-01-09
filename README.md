@@ -1,6 +1,6 @@
 # BRACE: Bible retrieval-augmented (Catholic edition)
 
-[<img src="https://raw.githubusercontent.com/casperdcl/brace/main/docs/favicon.svg" width="48px" />](https://brace.cdcl.ml) | [![Website](https://img.shields.io/website?url=https%3A%2F%2Fbrace.cdcl.ml&up_message=brace.cdcl.ml)](https://brace.cdcl.ml)
+[<img src="https://raw.githubusercontent.com/casperdcl/brace/main/favicon.svg" width="48px" />](https://brace.cdcl.ml) | [![Website](https://img.shields.io/website?url=https%3A%2F%2Fbrace.cdcl.ml&up_message=brace.cdcl.ml)](https://brace.cdcl.ml)
 --|--
 
 ## About
