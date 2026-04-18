@@ -110,9 +110,9 @@ else:
 
     Things which non-AI websearch is better at, e.g.:
 
-    - How many books (i.e. metadata/meta questions) are in the Catholic Bible, and when where they written?
-    - What does Matthew 5:30 (i.e. citation lookup) say?
-    - Where does it say (i.e. reverse citation lookup) <insert quote>?
+    - Meta(data) questions (How many books are in the Catholic Bible, and when were they written?)
+    - Citation lookup (What does Matthew 5:30 say?)
+    - Reverse citation lookup (Where does it say  <insert quote>?)
     """))
 
 st.caption(f"""
@@ -147,7 +147,7 @@ This AI tool thus aims to provide insights & answers solely based on the Biblica
 
 - [OpenBible Labs AI-Assisted Bible Study](https://www.openbible.info/labs/ai-bible-study?utm_source={CNAME}) — chapter summary & question generator
 - [Viz.Bible](https://viz.bible?utm_source={CNAME}) — data visualisations, infographics, and illustrated diagrams
-- [Biblos](https://github.com/dssjon/biblos) — similar to [BRACE](https://{CNAME})
+- [Biblos](https://github.com/dssjon/biblos) — similar to [BRACE](https://{CNAME}) but using [instructor-large](https://huggingface.co/hkunlp/instructor-large) & [Claude Sonnet](https://www.anthropic.com/claude/sonnet) 3.5 for plain RAG on [ESV](https://www.biblegateway.com/passage/?search=Genesis%201&version=ESV&utm_source={CNAME}) & [commentaries](https://github.com/HistoricalChristianFaith/Commentaries-Database)
 - [ChristGPT](https://github.com/ortegaalfredo/ChristGPT) — LLaMA-13B [Alpaca-LoRA](https://github.com/tloen/alpaca-lora) fine-tuned on [KJV](https://www.biblegateway.com/passage/?search=Genesis%201&version=KJV&utm_source={CNAME})
 """)
 
