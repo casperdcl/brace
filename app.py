@@ -24,6 +24,8 @@ with st.sidebar:
     chapter_filter = chapter_filter_usr.strip()
     if not chapter_filter and st.checkbox("Use AI-based *chapter selection*"):
         chapter_filter = 'LLM'
+    ccc_url = bool(st.query_params.get('ccc', ""))
+    ccc = st.checkbox(f"Include *Catechism ([CCC](https://www.vatican.va/archive/ccc/index.htm?utm_source={CNAME}))*", ccc_url)
 
 if 'queries_processed' not in st.session_state:
     st.session_state['queries_processed'] = set()
@@ -47,7 +49,7 @@ if query and (
         pbar = st.progress(0)
         eta = st.caption("*estimated time remaining: >5 minutes (lots of users!)*")
         share = st.empty()
-        res = requests.get(f'{BRACE_BACKEND_URL}/api', stream=True, params={'q': query, 'chapter_filter': chapter_filter, 'max_chapters': max_chapters})
+        res = requests.get(f'{BRACE_BACKEND_URL}/api', stream=True, params={'q': query, 'chapter_filter': chapter_filter, 'max_chapters': max_chapters, 'ccc': ccc})
         total_chapters = 0
         stream_node = None
         for chunk in res.iter_content(None, True):
@@ -74,6 +76,8 @@ if query and (
                     link += f"&n={max_chapters}"
                 if chapter_filter:
                     link += f"&ch={urllib.parse.quote_plus(chapter_filter)}"
+                if ccc:
+                    link += f"&ccc=1"
                 share.caption(f"Like what you see? [Link to this question]({link}).")
             elif "*total time: " in chunk:
                 pbar.progress(100)
@@ -102,17 +106,12 @@ else:
     st.caption(dedent("""\
     ## Coming soon/under development
 
-    Topics which the Bible doesn't cover, e.g.:
-
-    - What is the difference between Catholic and <insert denomination> beliefs?
-    - What is the Church (i.e. CCC & tradition rather than scripture) stance on <insert topic>?
-    - Is <insert modern invention> sinful?
-
     Things which non-AI websearch is better at, e.g.:
 
     - Meta(data) questions (How many books are in the Catholic Bible, and when were they written?)
     - Citation lookup (What does Matthew 5:30 say?)
     - Reverse citation lookup (Where does it say  <insert quote>?)
+    - What is the difference between Catholic and <insert denomination> beliefs?
     """))
 
 st.caption(f"""
@@ -120,11 +119,20 @@ st.caption(f"""
 
 ### About
 
-The Bible is the most studied and translated book in existence. Despite this, it is oft misinterpreted and misunderstood.
-Whilst [the CCC](https://www.vatican.va/archive/ccc/index.htm?utm_source={CNAME}) and numerous Bible commentaries aim to aid understanding, they are not as meticulously worded as the Bible itself, and are thus significantly easier for AI to misinterpret.
-This AI tool thus aims to provide insights & answers solely based on the Biblical text. The tool itself can be viewed as a bespoke commentary generator.
+By default, this AI tool provides insights & answers solely based on the Biblical text. The tool itself can be viewed as a bespoke commentary generator.
 
-:writing_hand: To improve answers, try rewording and adding more details to your query. For example, instead of *"tradition vs scripture"*, ask *"Are sacred tradition and sacred scripture equally important, or is scripture more important?"*
+### Tips
+
+:ledger: Some questions might be answerable by selecting the *Include Catechism ([CCC](https://www.vatican.va/archive/ccc/index.htm?utm_source={CNAME}))* checkbox in the sidebar.
+This might work on topics which the Bible doesn't cover, e.g.:
+
+- What is the Church (tradition rather than scripture) stance on <insert topic>?
+- Is <insert modern invention> sinful?
+
+Whilst the CCC and numerous Bible commentaries aim to aid understanding, they are not as meticulously worded as the Bible itself, and are thus significantly easier for AI to misinterpret.
+The Bible is the most studied and translated book in existence. Despite this, it is oft misinterpreted and misunderstood.
+
+:black_nib: To improve answers, try rewording and adding more details to your query. For example, instead of *"tradition vs scripture"*, ask *"Are sacred tradition and sacred scripture equally important, or is scripture more important?"*
 
 :bug: Found a bug or have a feature request? [Open an issue](https://github.com/casperdcl/brace/issues) or email `brace@cdcl.ml`.
 
